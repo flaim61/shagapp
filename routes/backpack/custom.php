@@ -25,4 +25,5 @@ Route::group([
     Route::crud('review', 'ReviewCrudController');
     Route::crud('contact-link', 'ContactLinkCrudController');
     Route::crud('contact-link-types', 'ContactLinkTypesCrudController');
+    Route::crud('banner', 'BannerCrudController');
 }); // this should be the absolute last line of this file
