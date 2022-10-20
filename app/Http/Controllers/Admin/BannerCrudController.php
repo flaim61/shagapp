@@ -33,7 +33,23 @@ class BannerCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Banner::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/banner');
-        CRUD::setEntityNameStrings('banner', 'banners');
+        CRUD::setEntityNameStrings('Баннер', 'Баннеры');
+    }
+
+    /**
+     * Define what happens when the List operation is loaded.
+     * 
+     * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
+     * @return void
+     */
+    protected function setupListOperation()
+    {
+        CRUD::column('name')->label('Название банера');
+        /**
+         * Columns can be defined using the fluent syntax or array syntax:
+         * - CRUD::column('price')->type('number');
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         */
     }
 
     /**
@@ -45,13 +61,31 @@ class BannerCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(BannerRequest::class);
-
+        CRUD::field('name')->type('text')->label('Название');
         
-
+        $this->crud->addField([
+            'name' => 'images',
+            'label' => 'Картинки',
+            'type' => 'upload_multiple',
+            'upload' => true,
+            'disk' => 'public',
+        ]);
+        
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
          */
+    }
+
+    /**
+     * Define what happens when the Update operation is loaded.
+     * 
+     * @see https://backpackforlaravel.com/docs/crud-operation-update
+     * @return void
+     */
+    protected function setupUpdateOperation()
+    {
+        $this->setupCreateOperation();
     }
 }

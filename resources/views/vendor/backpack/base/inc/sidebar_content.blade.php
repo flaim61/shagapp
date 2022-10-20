@@ -11,4 +11,4 @@
 
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('contact-link') }}"><i class="nav-icon la la-link"></i> Ссылки</a></li>
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('contact-link-types') }}"><i class="nav-icon la la-list"></i> Типы ссылок</a></li>
-<li class="nav-item"><a class="nav-link" href="{{ backpack_url('banner') }}"><i class="nav-icon la la-question"></i> Banners</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ backpack_url('banner') }}"><i class="nav-icon la la-file-picture-o"></i> Баннеры</a></li>

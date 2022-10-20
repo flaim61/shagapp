@@ -15,11 +15,15 @@ class Banner extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'banners';
-    // protected $primaryKey = 'id';
-    // public $timestamps = false;
+    protected $table = 'banner';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'images',
+    ];
+    
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -52,4 +56,17 @@ class Banner extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    
+    protected $casts = [
+        'images' => 'array',
+    ];
+
+    public function setImagesAttribute($value)
+    {
+        $attribute_name = "images";
+        $disk = "public";
+        $desination_path = "images/banners";
+
+        $this->uploadMultipleFilesToDisk($value, $attribute_name, $disk, $desination_path);
+    }
 }
