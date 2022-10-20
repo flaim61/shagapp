@@ -23,6 +23,7 @@ class Banner extends Model
         'name',
         'images',
     ];
+    
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -55,7 +56,7 @@ class Banner extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
+    
     protected $casts = [
         'images' => 'array',
     ];
