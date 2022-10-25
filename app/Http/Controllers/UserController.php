@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\User;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResertPasswordRequest;
+use App\Http\Requests\GetUserInfoRequest;
 
 class UserController extends Controller
 {
@@ -58,27 +61,86 @@ class UserController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $email = $request->email;
-        $password = bcrypt($request->password);
+        try {
+            $email = $request->email;
+            $password = bcrypt($request->password);
 
-        $user = User::query()->where('email', $email)->first();
+            $user = User::query()->where('email', $email)->first();
 
-        if( $user == null ){
+            if( $user == null ){
+                return response()->json([
+                    'status' => 'invalid login',
+                ]);
+            }
+
+            $token = Str::random(80);
+
+            $user->stoken = $token;
+            $user->save();
+
             return response()->json([
-                'status' => 'invalid login',
+                'status' => 'success',
+                'token' => $user->stoken
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error'
             ]);
         }
+    }
 
-        $token = Str::random(80);
+    public function resertPassword(ResertPasswordRequest $request)
+    {
+        try {
+            $newPassword = $request->password;
+            $oldPassword = bcrypt($request->password);
+            $token =  $request->token;
+            $user = User::query()->where('stoken', $token)->where('password', $oldPassword)->first();
+            
+            if ($user == null){
+                return response()->json([
+                    'status' => 'error'
+                ]);
+            }
 
-        $user->stoken = $token;
-        $user->save();
+            $user->password = bcrypt($newPassword);
+            $user->save();
 
-        return response()->json([
-            'status' => 'success',
-            'token' => $user->stoken
-        ]);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'status' => 'error'
+            ]);
+
+        }
+    }
+
+    public function getUserInfo(GetUserInfoRequest $request)
+    {
+        try {
+            $token = $request->token;
+            $user = User::query()->where('stoken', $token)->first();
+
+            if ( $user == null ) {
+                return response()->json([
+                    'status' => 'error'
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'user' => $user
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'user' => $user
+            ]);
+        }
     }
 }

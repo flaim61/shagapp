@@ -37,4 +37,6 @@ Route::controller(UserController::class)->group(function(){
     Route::post('register', 'registerUser');
     Route::post('user-check', 'userCheck');
     Route::post('login', 'login');
+    Route::post('resert-password', 'resertPassword');
+    Route::post('get-info', 'getUserInfo');
 });
