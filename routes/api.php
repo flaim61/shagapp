@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,6 @@ use App\Http\Controllers\BannerController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::controller(CategoryController::class)->group(function(){
     Route::get('category', 'getCategories');
 });
@@ -32,6 +29,12 @@ Route::controller(ProductController::class)->group(function(){
 });
 
 Route::controller(BannerController::class)->group(function(){
-    Route::get('banner/{categoryId}', 'getImageByBannerId');
+    Route::get('banner/{bannerId}', 'getImageByBannerId');
     Route::get('banner', 'getImageByBannerId');
+});
+
+Route::controller(UserController::class)->group(function(){
+    Route::post('register', 'registerUser');
+    Route::post('user-check', 'userCheck');
+    Route::post('login', 'login');
 });
