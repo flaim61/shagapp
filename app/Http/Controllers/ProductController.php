@@ -21,4 +21,20 @@ class ProductController extends Controller
     {
         return Product::query()->where('id', $id)->first();
     }
+
+    public function getProductInfoByArrayIds(Request $request)
+    {
+        $arrayIds = $request->array_ids;
+        $arrayProducts = [];
+
+        foreach ($arrayIds as $key => $id) {
+            $product = Product::query()->where('id', $id)->first();
+            array_push($arrayProducts, $product);
+        }
+
+        return response()->json([
+            'products' => $arrayProducts
+        ]);
+
+    }
 }
