@@ -26,6 +26,7 @@ Route::controller(ProductController::class)->group(function(){
     Route::get('products/{categoryId}', 'getProductsByCategoryId');
     Route::get('products', 'getProducts');
     Route::get('product/{productId}', 'getProductInfoById');
+    Route::post('products/get-products-info', 'getProductInfoByArrayIds');
 });
 
 Route::controller(BannerController::class)->group(function(){

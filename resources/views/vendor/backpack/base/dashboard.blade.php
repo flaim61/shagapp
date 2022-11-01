@@ -7,7 +7,7 @@
         'class' => 'card text-white bg-primary mb-2',
         'content'     => [
             'header' => 'Кол-во пользователей',
-            'body' => $userCount
+            'body' => $userCount ?? ''
         ]
     ];
 
